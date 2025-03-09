@@ -33,3 +33,31 @@ canvas {
     margin-left:10px;
     padding-top: 3px;
 }
+
+
+@media (max-width: 600px) {
+    .container {
+        width: 90%; 
+        padding: 10px;
+    }
+
+    select, input[type='range'] {
+        width: 100%; 
+    }
+
+    .buttons {
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    canvas {
+        max-width: 100%; 
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        padding: 10px;
+    }
+}

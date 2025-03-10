@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
     let undoButton = document.getElementById("undo");
     let clearButton = document.getElementById("clear");
     let ctx = canvas.getContext("2d");
-    
+
     let shapesArray = [];
 
     class Shape {
@@ -16,7 +16,7 @@ window.addEventListener("load", function () {
             this.color = color;
             this.size = size;
         }
-        draw(ctx) {}
+        draw(ctx) { }
     }
 
     class Rectangle extends Shape {
@@ -94,13 +94,33 @@ window.addEventListener("load", function () {
     }
 
     function saveToLocalStorage() {
-        localStorage.setItem("shapesData", JSON.stringify(shapesArray));
+        let shapesData = shapesArray.map(shape => {
+            return {
+                x: shape.x,
+                y: shape.y,
+                color: shape.color,
+                size: shape.size,
+                type: shape instanceof Rectangle ? "rectangle" :
+                    shape instanceof Circle ? "circle" : "triangle"
+            };
+        });
+        localStorage.setItem("shapesData", JSON.stringify(shapesData));
     }
 
     function loadFromLocalStorage() {
         let savedShapes = localStorage.getItem("shapesData");
         if (savedShapes) {
-            shapesArray = JSON.parse(savedShapes);
+            let parsedShapes = JSON.parse(savedShapes);
+            shapesArray = parsedShapes.map(shapeData => {
+                let { x, y, color, size, type } = shapeData;
+                if (type === "rectangle") {
+                    return new Rectangle(x, y, color, size);
+                } else if (type === "circle") {
+                    return new Circle(x, y, color, size);
+                } else {
+                    return new Triangle(x, y, color, size);
+                }
+            });
             redrawCanvas();
         }
     }

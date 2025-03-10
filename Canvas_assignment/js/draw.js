@@ -1,3 +1,7 @@
+//group memeber - Ziyi(400525051), Nandini(400560295)
+//date of creation - 26 February, 2025
+//This is the javascript page of the website . It velrooks all the functioning
+//and responsive elements of the website.
 window.addEventListener("load", function () {
     let colorInput = document.getElementById("color");
     let shapeSelect = document.getElementById("shape");
@@ -8,7 +12,7 @@ window.addEventListener("load", function () {
     let ctx = canvas.getContext("2d");
 
     let shapesArray = [];
-
+    // creating circle, rectangle, and triangle shape using class and constructor
     class Shape {
         constructor(x, y, color, size) {
             this.x = x;
@@ -52,14 +56,15 @@ window.addEventListener("load", function () {
         let msg = document.getElementById("rangeamount");
         msg.innerHTML = v;
     });
-
+    //clears the canvas
     function redrawCanvas() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let shape of shapesArray) {
             shape.draw(ctx);
         }
     }
-
+    // It is triggered when the user clicks on the canvas, it takes parameters like
+    // shape, color, and size to create the required object
     function addShape(event) {
         let x = event.offsetX;
         let y = event.offsetY;
@@ -80,19 +85,19 @@ window.addEventListener("load", function () {
         shape.draw(ctx);
         saveToLocalStorage();
     }
-
+    // Removes last shape from the array
     function undoLastShape() {
         shapesArray.pop();
         redrawCanvas();
         saveToLocalStorage();
     }
-
+    // Empties the array
     function clearCanvas() {
         shapesArray = [];
         redrawCanvas();
         localStorage.removeItem("shapesData");
     }
-
+    // Converts shapes array to JSON string
     function saveToLocalStorage() {
         let shapesData = shapesArray.map(shape => {
             return {
@@ -106,7 +111,7 @@ window.addEventListener("load", function () {
         });
         localStorage.setItem("shapesData", JSON.stringify(shapesData));
     }
-
+    // Checks if there are shapes in local storage, converts JSON string to shapes if there is
     function loadFromLocalStorage() {
         let savedShapes = localStorage.getItem("shapesData");
         if (savedShapes) {
